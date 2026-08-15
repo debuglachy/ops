@@ -34,5 +34,5 @@ Dependencies: zenity
 
 Developed by Lachlan Christie as a lab demo.
 
-Refer back to the [LICENSE](../LICENSE).
+Refer back to the [LICENSE](../../LICENSE).
 
