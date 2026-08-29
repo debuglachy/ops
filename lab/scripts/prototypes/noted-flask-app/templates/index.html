@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>New note form</title>
+</head>
+<body>
+
+	#form build
+	<h2>New note form</h2>
+	<form method="POST">
+
+		#form fields and request definitions
+		<label for="tags">Enter tags (separated by - character):</label>
+
+		<input type="text" id="tags" name="tags" value="tag1-tag2-tag3" required>
+		<br><br>
+
+		<label for="content">Enter note:</label>
+		<br>
+
+		<textarea id="content" name="content" rows="20" cols="40" required></textarea>
+		<br><br>
+
+		<button type="submit">Save note</button>
+	</form>
+</body>
+</html>

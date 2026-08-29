@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+
+    #get default or user set port
+      - "${NOTED_APP_PORT}:${NOTED_APP_PORT}"
+    environment:
+      - NOTED_APP_PORT=${NOTED_APP_PORT}
+    volumes:
+    #persist data between container restarts and crashes
+      - ./notes-data:/app/data
