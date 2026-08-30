@@ -6,20 +6,20 @@
 </head>
 <body>
 
-	#form build
+	<!--form build-->
 	<h2>New note form</h2>
 	<form method="POST">
 
-		#form fields and request definitions
-		<label for="tags">Enter tags (separated by - character):</label>
+		<!--form fields and request definitions-->
+		<label for="tags">Enter tags (separate with -):</label>
 
-		<input type="text" id="tags" name="tags" value="tag1-tag2-tag3" required>
+		<input type="text" id="tags" name="tags" value="general-note-tag3" required>
 		<br><br>
 
 		<label for="content">Enter note:</label>
 		<br>
 
-		<textarea id="content" name="content" rows="20" cols="40" required></textarea>
+		<textarea id="content" name="content" rows="20" cols="40" required>Today I learned...</textarea>
 		<br><br>
 
 		<button type="submit">Save note</button>
