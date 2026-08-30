@@ -18,9 +18,9 @@ def index():
 
 		#clean up to prevent traversing and invalid path/file combos
 		filename_trimmed = os.path.basename(filename)
-		file_path = os.path.join(DATA_FOLDER, filename_trimmed)
+		file_path = os.path.join(DATA_FOLDER, filename_trimmed + '.txt')
 
-		with open(file_path, 'w') as f:
+		with open(file_path, 'a') as f:
 			f.write(content)
 
 		return f"File saved to {file_path}"
