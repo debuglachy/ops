@@ -5,3 +5,7 @@
 
 *.tfvars
 
+*.env
+*.env.local
+
+*.bak
