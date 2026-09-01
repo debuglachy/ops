@@ -112,11 +112,11 @@ do
 				((counter++))
 			done
 
-#			uncomment this block and comment mv command at the end for non-destructive mode
+#			to use copy mode, uncomment the following block and comment mv command at the end
 #			echo cp "$file" "$file_path_unique"
 #			echo "Moving $filename to $topic_dir"
-#			cp "$file" "$file_path_unique"
-			mv "$file" "$file_path_unique"
+#			cp -n "$file" "$file_path_unique"
+			mv -n "$file" "$file_path_unique"
 
 		fi
 	done
