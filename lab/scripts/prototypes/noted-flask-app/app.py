@@ -12,27 +12,28 @@ os.makedirs(DATA_FOLDER, exist_ok=True)
 def index():
 	if request.method == 'POST':
 
-		#data from the form gets ingested
+#		data from the form gets ingested
 		filename = request.form.get('tags')
 		content = request.form.get('content')
 
-		#clean up to prevent traversing and invalid path/file combos
+#		clean up to prevent traversing and invalid path/file combos
 		filename_trimmed = os.path.basename(filename)
 		file_path = os.path.join(DATA_FOLDER, filename_trimmed + '.txt')
 
 		with open(file_path, 'a') as f:
-			f.write(content)
+#			adds full tags on first line for other scripts to work with
+			f.write('#' + filename + '\n\n')
+			f.write(content + '\n')
+		return render_template('saved.html')
 
-		return f"File saved to {file_path}"
-
-	#form load
+#	form load
 	return render_template('index.html')
 
 
 if __name__ == '__main__':
 
-	#check for custom port selection
+#	check for custom port selection
 	port = int(os.environ.get('NOTED_APP_PORT', 8080))
 
-	#launch flask binded to all ifaces (planning to replace with gunicorn)
+#	launch flask binded to all ifaces (planning to replace with gunicorn)
 	app.run(host='0.0.0.0', port=port)
