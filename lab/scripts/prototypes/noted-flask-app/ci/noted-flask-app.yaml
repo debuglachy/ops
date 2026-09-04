@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-	name: noted-flask
-	namespace: default
+  name: noted-flask
+  namespace: default
 spec:
-	replicas: 1
-	revisionHistoryLimit: 3
-	selector:
-	matchLabels:
-		app: noted-flask
-template:
-	metadata:
-		labels:
-			app: noted-flask
-		spec:
-			containers:
-			- image: docker.io/debuglachy/noted-flask-app:latest
-				name: noted-flask
-				ports:
-				- containerPort: 8080
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: noted-flask
+  template:
+    metadata:
+      labels:
+        app: noted-flask
+    spec:
+      containers:
+      - image: docker.io/debuglachy/noted-flask-app:latest
+        name: noted-flask
+        ports:
+        - containerPort: 8080
