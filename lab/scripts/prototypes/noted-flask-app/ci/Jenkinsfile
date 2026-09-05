@@ -30,7 +30,7 @@ node {
                 steps {
 	            echo "${env.GIT_COMMIT}"​
 	            echo "triggering deployment"
-	            build job: 'deployment', parameters: [string(name: 'DOCKERTAG', value: env.GIT_COMMIT)]
+	            build job: 'py-pipe', parameters: [string(name: 'DOCKERTAG', value: env.GIT_COMMIT)]
                 }
             }
     }
