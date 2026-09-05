@@ -20,6 +20,8 @@ spec:
     env:
     - name: DOCKER_TLS_CERTDIR
       value: ""
+    - name: DOCKER_LEGACY_IPTABLES
+      value: 1
 '''
 	    }
 	}
