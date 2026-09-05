@@ -27,7 +27,7 @@ pipeline {
 		    }
 		    steps {
 		    	script {
-			    	echo "${GIT_COMMIT}"​
+			    	echo "${GIT_COMMIT}"
 				echo "triggering deployment"
 				build job: 'py-pipe', parameters: [string(name: 'DOCKERTAG', value: GIT_COMMIT)]
 		    	}
