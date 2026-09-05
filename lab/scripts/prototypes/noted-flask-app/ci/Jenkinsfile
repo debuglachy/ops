@@ -26,11 +26,11 @@ node {
 
     stage('Trigger deployment') {
             
-            steps {
+
 		    echo "${env.GIT_COMMIT}"​
 		    echo "triggering deployment"
 		    build job: 'deployment', parameters: [string(name: 'DOCKERTAG', value: env.GIT_COMMIT)]
-           }
+
     }
 }
 
