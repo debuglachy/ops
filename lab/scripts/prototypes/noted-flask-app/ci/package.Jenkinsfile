@@ -6,7 +6,7 @@ pipeline {
 		    agent any
 		    when {
 		        allOf {
-		            changeset "lab/scripts/prototypes/noted-flask-app/**"
+		            changeset "**/noted-flask-app/**"
 		            branch 'main'
 		        }
 		    }
