@@ -1,5 +1,6 @@
 node {
     def app
+
     
     stage('Clone repository') {
       
@@ -24,12 +25,14 @@ node {
             }
     }
 
+    def GIT_COMMIT = "${env.GIT_COMMIT}"
+
     stage('Trigger deployment') {
             
 
-		    echo "${env.GIT_COMMIT}"​
+		    echo "${GIT_COMMIT}"​
 		    echo "triggering deployment"
-		    build job: 'deployment', parameters: [string(name: 'DOCKERTAG', value: env.GIT_COMMIT)]
+		    build job: 'deployment', parameters: [string(name: 'DOCKERTAG', value: GIT_COMMIT)]
 
     }
 }
