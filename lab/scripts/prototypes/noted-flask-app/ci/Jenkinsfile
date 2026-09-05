@@ -13,9 +13,9 @@ node {
                     withCredentials([usernamePassword(credentialsId: 'maingithub', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         sh "git config user.email ${USER_EMAIL}"
                         sh "git config user.name ${USER_NAME}"
-                        sh "cat noted-flask-app.yaml"
-                        sh "sed -i 's+${DOCKER_NAME}/noted-flask-app.*+${DOCKER_NAME}/noted-flask-app:${DOCKERTAG}+g' noted-flask-app.yaml"
-                        sh "cat noted-flask-app.yaml"
+                        sh "cat lab/scripts/prototypes/noted-flask-app/ci/noted-flask-app.yaml"
+                        sh "sed -i 's+${DOCKER_NAME}/noted-flask-app.*+${DOCKER_NAME}/noted-flask-app:${DOCKERTAG}+g' lab/scripts/prototypes/noted-flask-app/ci/noted-flask-app.yaml"
+                        sh "cat lab/scripts/prototypes/noted-flask-app/ci/noted-flask-app.yaml"
                         sh "git add ."
                         sh "git commit -m 'Done by Jenkins Job deployment: ${env.BUILD_NUMBER}'"
                         sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/ops.git HEAD:main"
