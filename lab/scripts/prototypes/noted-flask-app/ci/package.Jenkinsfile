@@ -6,7 +6,6 @@ pipeline {
 		    agent any
 		    when {
 		        allOf {
-		            changeset "**/noted-flask-app/**"
 		            branch 'main'
 		        }
 		    }
