@@ -27,17 +27,21 @@ pipeline {
 		      def GIT_COMMIT = "${env.GIT_COMMIT}"
 		    }
 		    steps {
-		        echo "${GIT_COMMIT}"​
-		        echo "triggering deployment"
-		        build job: 'py-pipe', parameters: [string(name: 'DOCKERTAG', value: GIT_COMMIT)]
+		    	script {
+			    	echo "${GIT_COMMIT}"​
+				echo "triggering deployment"
+				build job: 'py-pipe', parameters: [string(name: 'DOCKERTAG', value: GIT_COMMIT)]
+		    	}
+
 		   }
 	    }
-	post {
+
+
+        }
+        post {
 		always{
 		    echo 'Package pipeline completed'
 		}
-	    }
-
-        }
+	}
 }
 
