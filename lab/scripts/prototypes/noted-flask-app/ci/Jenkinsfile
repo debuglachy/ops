@@ -1,0 +1,40 @@
+node {
+    def app
+    
+    stage('Clone repository') {
+      
+      
+        checkout scm
+    }
+    
+    stage('Update GIT') {
+            script {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    withCredentials([usernamePassword(credentialsId: 'maingithub', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                        sh "git config user.email ${USER_EMAIL}"
+                        sh "git config user.name ${USER_NAME}"
+                        sh "cat noted-flask-app.yaml"
+                        sh "sed -i 's+${DOCKER_NAME}/noted-flask-app.*+${DOCKER_NAME}/noted-flask-app:${DOCKERTAG}+g' noted-flask-app.yaml"
+                        sh "cat noted-flask-app.yaml"
+                        sh "git add ."
+                        sh "git commit -m 'Done by Jenkins Job deployment: ${env.BUILD_NUMBER}'"
+                        sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/ops.git HEAD:main"
+                    }
+                }
+            }
+    }
+    stage('Trigger deployment') {
+            agent any
+            
+            environment{
+              def GIT_COMMIT = "${env.GIT_COMMIT}"
+            }
+            steps{
+              echo "${GIT_COMMIT}"​
+              echo "triggering deployment"
+      repository Jenkinsfile
+          build job: 'deployment', parameters: [string(name: 'DOCKERTAG', value: GIT_COMMIT)]
+    }
+  }
+}
+
