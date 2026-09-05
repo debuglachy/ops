@@ -11,7 +11,7 @@ pipeline {
               echo 'Packaging flask app with docker'
               script {
                 docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin') {
-                    def notedImage = docker.build("${${USER_NAME}/noted-app-flask:v${env.BUILD_ID}", "./lab/scripts/prototypes/noted-flask-app/")
+                    def notedImage = docker.build("${${USER_NAME}/noted-app-flask:v${env.BUILD_ID}", "./lab/scripts/prototypes/noted-flask-app")
                     notedImage.push()
                     notedImage.push("latest")
                 }
