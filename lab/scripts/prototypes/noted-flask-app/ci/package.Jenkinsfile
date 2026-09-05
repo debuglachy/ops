@@ -1,9 +1,30 @@
 pipeline {
-	agent none
- 
+	agent {
+	    kubernetes {
+		yaml '''
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: docker-cli
+    image: docker:cli
+    command: ['cat']
+    tty: true
+    env:
+    - name: DOCKER_HOST
+      value: tcp://localhost:2375
+  - name: dind
+    image: docker:dind
+    securityContext:
+      priveleged: true
+    env:
+    - name: DOCKER_TLS_CERTDIR
+      value: ""
+'''
+	    }
+	}
  	stages {
 		stage("noted-flask-app-package") {
-		    agent any
 		    when {
 		        allOf {
 		            changeset 'lab/scripts/prototypes/noted-flask-app/**'
@@ -11,11 +32,11 @@ pipeline {
 		    }
 		    steps {
 		      echo 'Packaging flask app with docker'
-		      script {
-		        docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin') {
-		            def notedImage = docker.build("${USER_NAME}/noted-app-flask:v${env.BUILD_ID}", "./lab/scripts/prototypes/noted-flask-app")
-		            notedImage.push()
-		            notedImage.push("latest")
+		      container('docker-cli') {
+		          withCredentials([usernamePassword(credentialsId: 'dockerlogin', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+		              sh 'echo "$DOCKER_PASSWORD" | docker login index.docker.io -u "$DOCKER_USERNAME" --password-stdin'
+		              sh 'docker build -t noted-desk-app:${env.BUILD_NUMBER} .'
+		              sh 'docker push noted-desk-app:${env.BUILD_NUMBER}'
 		        }
 		      }
 		    }
