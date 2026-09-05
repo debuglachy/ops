@@ -4,8 +4,41 @@ pipeline {
 		yaml '''
 apiVersion: v1
 kind: Pod
+metadata:
+  labels:
+    app: agent
 spec:
+  volumes:
+  - name: ca
+    configMap:
+      name: jenkins-ca
+  - name: truststore
+    emptyDir: {}
+  initContainers:
+  - name: importer
+    image: eclipse-temurin:17-alpine
+    command:
+      - sh
+      - -c
+      - |
+        cp $JAVA_HOME/lib/security/cacerts /custom-truststore/cacerts/
+        keytool -importcert -noprompt -alias jenkins \
+        -file /ca-cert/ca.crt \
+        -keystore /custom-truststore/cacerts \
+        -storepass changeit
+    volumeMounts:
+    - name: ca
+      mountPath: /ca-cert
+    - name: truststore
+      mountPath: /custom-truststore
   containers:
+  - name: jnlp
+    env:
+      - name: JAVA_OPTS
+        value: "-Djavax.net.ssl.trustStore=/custom-truststore -Djavax.net.ssl.trustStorePassword=changeit"
+    volumeMounts:
+    - name: truststore-volume
+      mountPath: /custom-truststore
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     command: ['cat']
