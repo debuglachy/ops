@@ -14,6 +14,9 @@ spec:
       name: jenkins-ca
   - name: truststore
     emptyDir: {}
+  - name: kaniko
+    secret:
+      secretName: kaniko-docker
   initContainers:
   - name: importer
     image: eclipse-temurin:17-alpine
@@ -37,7 +40,7 @@ spec:
       - name: JAVA_OPTS
         value: "-Djavax.net.ssl.trustStore=/custom-truststore -Djavax.net.ssl.trustStorePassword=changeit"
     volumeMounts:
-    - name: truststore-volume
+    - name: truststore
       mountPath: /custom-truststore
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
@@ -47,10 +50,6 @@ spec:
     - name: kaniko
       mountPath: /kaniko/.docker/config.json
       subPath: .dockerconfigjson
-  volumes:
-  - name: kaniko
-    secret:
-      secretName: kaniko-docker
 '''
 	    }
 	}
