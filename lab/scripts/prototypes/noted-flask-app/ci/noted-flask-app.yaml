@@ -15,7 +15,7 @@ spec:
         app: noted-flask
     spec:
       containers:
-      - image: docker.io/debuglachy/noted-flask-app:latest
+      - image: docker.io/debuglachy/noted-flask-app:5cbe920b1bfe71deca23825c6978545a526b5f10
         name: noted-flask
         ports:
         - containerPort: 8080
