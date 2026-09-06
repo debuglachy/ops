@@ -66,13 +66,13 @@ spec:
 		          withCredentials([usernamePassword(credentialsId: 'dockerlogin', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
 		              sh '''
 		                  /kaniko/executor \
-		                  --context=dir://noted-flask-app \
+		                  --context=lab/scripts/prototypes/noted-flask-app/ \
 		                  --dockerfile=lab/scripts/prototypes/noted-flask-app/Dockerfile \
 		                  --destination=${DOCKER_USERNAME}/noted-flask-app:${BUILD_NUMBER}
 		              '''
 		              sh '''
 		                  /kaniko/executor \
-		                  --context=dir://noted-flask-app \
+		                  --context=lab/scripts/prototypes/noted-flask-app \
 		                  --dockerfile=lab/scripts/prototypes/noted-flask-app/Dockerfile \
 		                  --destination=${DOCKER_USERNAME}/noted-flask-app:latest
 		              '''
