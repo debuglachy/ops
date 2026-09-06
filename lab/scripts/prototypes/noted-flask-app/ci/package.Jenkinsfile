@@ -38,7 +38,7 @@ spec:
   - name: jnlp
     env:
       - name: JAVA_OPTS
-        value: "-Djavax.net.ssl.trustStore=/custom-truststore -Djavax.net.ssl.trustStorePassword=changeit"
+        value: "-Djavax.net.ssl.trustStore=/custom-truststore/cacerts -Djavax.net.ssl.trustStorePassword=changeit"
     volumeMounts:
     - name: truststore
       mountPath: /custom-truststore
