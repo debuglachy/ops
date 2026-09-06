@@ -68,7 +68,7 @@ spec:
 		                  /kaniko/executor \
 		                  --context=lab/scripts/prototypes/noted-flask-app/ \
 		                  --dockerfile=lab/scripts/prototypes/noted-flask-app/Dockerfile \
-		                  --destination=${DOCKER_USERNAME}/noted-flask-app:${BUILD_NUMBER}
+		                  --destination=${DOCKER_USERNAME}/noted-flask-app:${GIT_COMMIT}
 		              '''
 		              sh '''
 		                  /kaniko/executor \

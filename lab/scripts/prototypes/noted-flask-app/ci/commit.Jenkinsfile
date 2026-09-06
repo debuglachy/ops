@@ -33,7 +33,7 @@ node {
                             sh "git config user.email ${env.GIT_EMAIL}"
                             sh "git config user.name ${env.GIT_NAME}"
                             sh "cat lab/scripts/prototypes/noted-flask-app/ci/noted-flask-app.yaml"
-                            sh "sed -i 's+${env.DOCKER_NAME}/noted-flask-app.*+${env.DOCKER_NAME}/noted-flask-app:${env.BUILD_NUMBER}+g' lab/scripts/prototypes/noted-flask-app/ci/noted-flask-app.yaml"
+                            sh "sed -i 's+${env.DOCKER_NAME}/noted-flask-app.*+${env.DOCKER_NAME}/noted-flask-app:${env.DOCKERTAG}+g' lab/scripts/prototypes/noted-flask-app/ci/noted-flask-app.yaml"
                             sh "cat lab/scripts/prototypes/noted-flask-app/ci/noted-flask-app.yaml"
                             sh "git add ."
                             sh "git commit -m 'Done by Jenkins Job deployment: ${env.BUILD_NUMBER}'"
