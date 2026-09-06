@@ -17,7 +17,7 @@ node {
 		                    passwordVariable: 'GIT_PASSWORD',
 		                    usernameVariable: 'GIT_USERNAME'
 		                ),
-		                usernamePassword(
+		                username(
 		                    credentialsId: 'dockerlogin',
 		                    usernameVariable: 'DOCKER_NAME'
 		                ),
