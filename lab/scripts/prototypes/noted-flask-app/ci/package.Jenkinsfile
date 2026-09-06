@@ -68,7 +68,7 @@ spec:
 		                  /kaniko/executor \
 		                  --context='pwd' \
 		                  --dockerfile=lab/scripts/prototypes/noted-flask-app/Dockerfile \
-		                  --destination=${DOCKER_USERNAME}/noted-flask-app:${env.BUILD_NUMBER}
+		                  --destination=${DOCKER_USERNAME}/noted-flask-app:${BUILD_NUMBER}
 		              '''
 		              sh '''
 		                  /kaniko/executor \
@@ -87,7 +87,7 @@ spec:
 		    }
 		    steps {
 		    	script {
-			    	echo "${GIT_COMMIT}"
+			    	echo "${env.GIT_COMMIT}"
 				echo "triggering deployment"
 				build job: 'py-pipe', parameters: [string(name: 'DOCKERTAG', value: GIT_COMMIT)]
 		    	}
