@@ -39,8 +39,6 @@ spec:
     env:
       - name: JENKINS_JAVA_OPTS
         value: "-Djavax.net.ssl.trustStore=/custom-truststore/cacerts -Djavax.net.ssl.trustStorePassword=changeit"
-    args:
-    - 
     volumeMounts:
     - name: truststore
       mountPath: /custom-truststore
