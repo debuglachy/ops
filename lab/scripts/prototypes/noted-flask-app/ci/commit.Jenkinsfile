@@ -30,14 +30,14 @@ node {
 		                    variable: 'GIT_NAME'
 		                )
                         ]) {
-                            sh "git config user.email ${GIT_EMAIL}"
-                            sh "git config user.name ${GIT_NAME}"
+                            sh "git config user.email ${env.GIT_EMAIL}"
+                            sh "git config user.name ${env.GIT_NAME}"
                             sh "cat lab/scripts/prototypes/noted-flask-app/ci/noted-flask-app.yaml"
-                            sh "sed -i 's+${DOCKER_NAME}/noted-flask-app.*+${DOCKER_NAME}/noted-flask-app:${DOCKERTAG}+g' lab/scripts/prototypes/noted-flask-app/ci/noted-flask-app.yaml"
+                            sh "sed -i 's+${env.DOCKER_NAME}/noted-flask-app.*+${env.DOCKER_NAME}/noted-flask-app:${env.DOCKERTAG}+g' lab/scripts/prototypes/noted-flask-app/ci/noted-flask-app.yaml"
                             sh "cat lab/scripts/prototypes/noted-flask-app/ci/noted-flask-app.yaml"
                             sh "git add ."
                             sh "git commit -m 'Done by Jenkins Job deployment: ${env.BUILD_NUMBER}'"
-                            sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/ops.git HEAD:main"
+                            sh "git push https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/${env.GIT_USERNAME}/ops.git HEAD:main"
                     }
                 }
             }
