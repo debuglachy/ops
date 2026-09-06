@@ -37,8 +37,10 @@ spec:
   containers:
   - name: jnlp
     env:
-      - name: JAVA_OPTS
+      - name: JENKINS_JAVA_OPTS
         value: "-Djavax.net.ssl.trustStore=/custom-truststore/cacerts -Djavax.net.ssl.trustStorePassword=changeit"
+    args:
+    - 
     volumeMounts:
     - name: truststore
       mountPath: /custom-truststore
