@@ -24,7 +24,7 @@ spec:
       - sh
       - -c
       - |
-        cp $JAVA_HOME/lib/security/cacerts /custom-truststore/cacerts/
+        cp $JAVA_HOME/lib/security/cacerts /custom-truststore/cacerts
         keytool -importcert -noprompt -alias jenkins \
         -file /ca-cert/ca.crt \
         -keystore /custom-truststore/cacerts \
