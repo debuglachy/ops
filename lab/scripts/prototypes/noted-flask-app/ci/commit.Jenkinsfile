@@ -30,8 +30,8 @@ node {
 		                    variable: 'GIT_NAME'
 		                )
                         ]) {
-                            sh 'git config user.email ${GIT_EMAIL}'
-                            sh 'git config user.name "${GIT_NAME}"'
+                            sh 'git config --replace-all user.email ${GIT_EMAIL}'
+                            sh 'git config --replace-all user.name "${GIT_NAME}"'
                             sh 'cat lab/scripts/prototypes/noted-flask-app/ci/noted-flask-app.yaml'
                             sh 'sed -i "s+${DOCKER_NAME}/noted-flask-app.*+${DOCKER_NAME}/noted-flask-app:${DOCKERTAG}+g" lab/scripts/prototypes/noted-flask-app/ci/noted-flask-app.yaml'
                             sh 'cat lab/scripts/prototypes/noted-flask-app/ci/noted-flask-app.yaml'
