@@ -1,0 +1,49 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: devops-tools2
+resources:
+  - deployment.yaml
+  - service.yaml
+  - serviceAccount.yaml
+  - volume.yaml
+#  - ca.yaml
+labels:
+  - includeSelectors: true
+    pairs:
+      app: jenkins-server
+generatorOptions:
+  disableNameSuffixHash: true
+configMapGenerator:
+  - name: jenkins-ca
+    files:
+      - setupfiles/root-ca.crt
+  - name: k8s-host
+    files:
+    - setupfiles/K8S_HOST
+  - name: jenkins-cacs
+    files:
+    - setupfiles/service.env
+    - setupfiles/plugins.txt
+    - setupfiles/jenkins.yaml
+secretGenerator:
+  - name: jenkins-keystore # loses intermediate ca for jenkins, to be changed
+    files:
+    - setupfiles/keystore.p12
+  - name: tools-secret-credentials
+    envs:
+    - setupfiles/secret-credentials.env
+  - name: tools-clear-credentials
+    envs:
+    - setupfiles/clear-credentials.env
+replacements:
+  - source:
+      kind: ConfigMap
+      name: k8s-host 
+      fieldPath: data.K8S_HOST
+    targets:
+      - select:
+          kind: PersistentVolume
+          name: jenkins-pv-volume
+        fieldPaths:
+          - spec.nodeAffinity.required.nodeSelectorTerms.0.matchExpressions.0.values.0
+

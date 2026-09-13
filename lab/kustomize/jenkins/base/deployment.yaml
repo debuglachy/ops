@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins-server
+  template:
+    metadata:
+      labels:
+        app: jenkins-server
+    spec:
+      securityContext:
+            fsGroup: 1000
+            runAsUser: 1000
+      serviceAccountName: jenkins-admin
+      initContainers:
+        - name: jenkins-pre
+          image: jenkins/jenkins:lts
+          command:
+            - jenkins-plugin-cli
+            - "--verbose"
+            - "--plugin-file"
+            - "/var/jenkins_home/cacs/plugins.txt"
+            - "--plugin-download-directory"
+            - "/var/jenkins_home/plugins"
+          volumeMounts:
+          - name: jenkins-data
+            mountPath: /var/jenkins_home
+          - name: jenkins-cacs
+            mountPath: /var/jenkins_home/cacs
+      containers:
+        - name: jenkins
+          image: jenkins/jenkins:lts
+          env:
+          - name: JAVA_OPTS
+            value: "-Djenkins.install.runSetupWizard=false"
+          - name: JENKINS_OPTS
+            value: "--config=/var/jenkins_home/cacs/service.env"
+          - name: CASC_JENKINS_CONFIG
+            value: "/var/jenkins_home/cacs/jenkins.yaml"
+          envFrom:
+          - secretRef:
+              name: tools-clear-credentials
+          - secretRef:
+              name: tools-secret-credentials
+          resources:
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+            requests:
+              memory: "500Mi"
+              cpu: "500m"
+          ports:
+            - name: httpport
+              containerPort: 8080
+            - name: httpsport
+              containerPort: 443
+            - name: jnlpport
+              containerPort: 50000
+          volumeMounts:
+            - name: jenkins-data
+              mountPath: /var/jenkins_home
+            - name: jenkins-cacs
+              mountPath: /var/jenkins_home/cacs
+            - name: keystore-data
+              mountPath: /var/jenkins_home/certs
+              readOnly: true
+      volumes:
+        - name: jenkins-data
+          persistentVolumeClaim:
+              claimName: jenkins-pv-claim
+        - name: keystore-data
+          secret:
+            secretName: jenkins-keystore
+        - name: jenkins-cacs
+          configMap:
+            name: jenkins-cacs
+

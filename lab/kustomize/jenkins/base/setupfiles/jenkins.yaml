@@ -1,0 +1,118 @@
+configuration-as-code:
+  deprecated: "reject"
+  restricted: "reject"
+  unknown: "reject"
+  version: "1"
+unclassified:
+  location:
+    url: "https://${KUBERNETES_SERVER}:${JENKINS_HTTPS_PORT}"
+    adminAddress: "$(ADMIN_EMAIL}"
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+        - usernamePassword:
+            description: "maingithub"
+            id: "maingithub"
+            password: "${GITHUB_PASSWORD}"
+            scope: GLOBAL
+            username: "${GITHUB_NAME}"
+        - usernamePassword:
+            description: "dockerlogin"
+            id: "dockerlogin"
+            password: "${DOCKER_PASSWORD}"
+            scope: GLOBAL
+            username: "${DOCKER_NAME}"
+        - string:
+            description: "git-email"
+            id: "git-email"
+            scope: GLOBAL
+            secret: "${GITHUB_SIGN_EMAIL}"
+        - string:
+            description: "git-name"
+            id: "git-name"
+            scope: GLOBAL
+            secret: "${GITHUB_SIGN_FULLNAME}"
+        - string:
+            description: "dockerlogin-name"
+            id: "dockerlogin-name"
+            scope: GLOBAL
+            secret: "${DOCKER_NAME}"
+jenkins:
+  system:
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+  clouds:
+  - kubernetes:
+      containerCap: 10
+      containerCapStr: "10"
+      jenkinsUrl: "https://${KUBERNETES_NODE_IP}:${JENKINS_HTTPS_PORT}"
+      name: "kubernetes"
+  securityRealm:
+    local:
+      allowsSignup: false
+      enableCaptcha: false
+      users:
+      - id: "${ADMIN_USERNAME}"
+        password: "${ADMIN_PASSWORD}"
+        name: "${ADMIN_NAME}"
+        properties:
+        - mailer:
+            emailAddress: "${ADMIN_EMAIL}"
+  slaveAgentPort: ${JENKINS_RAWTCP_PORT}
+globalCredentialsConfiguration:
+  configuration:
+    providerFilter: "none"
+    typeFilter: "none"
+jobs:
+  - script: |
+      pipelineJob( 'pack' ) {
+        triggers {
+          scm( 'H/20 * * * *' )
+        }
+        parameters {
+          stringParam( 'DOCKERTAG', 'latest' )
+        }
+        definition {
+          cpsScm {
+            scm {
+              git {
+                remote {
+                  url( "https://github.com/${GITHUB_NAME}/${GIT_REPO_NAME}.git" )
+                  credentials( 'maingithub' )
+                }
+                branches( '*/main' )
+                extensions {
+                  messageExclusion {
+                    excludedMessage(/(?s).*Done\s+by\s+Jenkins\s+Job.*/)
+                  }
+                }
+              }
+            }
+            scriptPath( '${GIT_JENKINSFILE_DIR}package.Jenkinsfile' )
+            lightweight( true )
+          }
+        }
+      }
+      pipelineJob( 'commit' ) {
+        parameters {
+          stringParam( 'DOCKERTAG', 'latest' )
+        }
+        definition {
+          cpsScm {
+            scm {
+              git {
+                remote {
+                  url( "https://github.com/${GITHUB_NAME}/${GIT_REPO_NAME}.git" )
+                  credentials( 'maingithub' )
+                }
+                branches( '*/main' )
+              }
+            }
+            scriptPath( '${GIT_JENKINSFILE_DIR}commit.Jenkinsfile' )
+            lightweight( true )
+          }
+        }
+      }
+

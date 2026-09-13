@@ -1,0 +1,8 @@
+configuration-as-code:latest
+git:latest
+job-dsl:latest
+kubernetes:latest
+workflow-job:latest
+workflow-cps:latest
+pipeline-model-definition:latest
+pipeline-build-step:latest
