@@ -98,6 +98,7 @@ jobs:
       pipelineJob( 'commit' ) {
         parameters {
           stringParam( 'DOCKERTAG', 'latest' )
+	  stringParam( 'APP_NAME', '' )
         }
         definition {
           cpsScm {
