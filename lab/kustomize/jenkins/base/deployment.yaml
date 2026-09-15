@@ -23,14 +23,14 @@ spec:
             - jenkins-plugin-cli
             - "--verbose"
             - "--plugin-file"
-            - "/var/jenkins_home/cacs/plugins.txt"
+            - "/var/jenkins_home/casc/plugins.txt"
             - "--plugin-download-directory"
             - "/var/jenkins_home/plugins"
           volumeMounts:
           - name: jenkins-data
             mountPath: /var/jenkins_home
-          - name: jenkins-cacs
-            mountPath: /var/jenkins_home/cacs
+          - name: jenkins-casc
+            mountPath: /var/jenkins_home/casc
       containers:
         - name: jenkins
           image: jenkins/jenkins:lts
@@ -38,9 +38,9 @@ spec:
           - name: JAVA_OPTS
             value: "-Djenkins.install.runSetupWizard=false"
           - name: JENKINS_OPTS
-            value: "--config=/var/jenkins_home/cacs/service.env"
+            value: "--config=/var/jenkins_home/casc/service.env"
           - name: CASC_JENKINS_CONFIG
-            value: "/var/jenkins_home/cacs/jenkins.yaml"
+            value: "/var/jenkins_home/casc/jenkins.yaml"
           envFrom:
           - secretRef:
               name: tools-clear-credentials
@@ -63,8 +63,8 @@ spec:
           volumeMounts:
             - name: jenkins-data
               mountPath: /var/jenkins_home
-            - name: jenkins-cacs
-              mountPath: /var/jenkins_home/cacs
+            - name: jenkins-casc
+              mountPath: /var/jenkins_home/casc
             - name: keystore-data
               mountPath: /var/jenkins_home/certs
               readOnly: true
@@ -75,7 +75,7 @@ spec:
         - name: keystore-data
           secret:
             secretName: jenkins-keystore
-        - name: jenkins-cacs
+        - name: jenkins-casc
           configMap:
-            name: jenkins-cacs
+            name: jenkins-casc
 

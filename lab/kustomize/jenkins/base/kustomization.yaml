@@ -20,7 +20,7 @@ configMapGenerator:
   - name: k8s-host
     files:
     - setupfiles/K8S_HOST
-  - name: jenkins-cacs
+  - name: jenkins-casc
     files:
     - setupfiles/service.env
     - setupfiles/plugins.txt
