@@ -90,7 +90,7 @@ jobs:
                 }
               }
             }
-            scriptPath( '${GIT_JENKINSFILE_DIR}package.Jenkinsfile' )
+            scriptPath( '${GIT_JENKINSFILE_DIR}Jenkinsfile' )
             lightweight( true )
           }
         }
