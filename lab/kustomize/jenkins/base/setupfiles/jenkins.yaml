@@ -67,7 +67,7 @@ globalCredentialsConfiguration:
     typeFilter: "none"
 jobs:
   - script: |
-      pipelineJob( 'pack' ) {
+      pipelineJob( '${APP_NAME}' ) {
         triggers {
           scm( 'H/20 * * * *' )
         }
@@ -95,25 +95,3 @@ jobs:
           }
         }
       }
-      pipelineJob( 'commit' ) {
-        parameters {
-          stringParam( 'DOCKERTAG', 'latest' )
-          stringParam( 'APP_NAME', '' )
-        }
-        definition {
-          cpsScm {
-            scm {
-              git {
-                remote {
-                  url( "https://github.com/${GITHUB_NAME}/${APP_NAME}.git" )
-                  credentials( 'maingithub' )
-                }
-                branches( '*/main' )
-              }
-            }
-            scriptPath( '${GIT_JENKINSFILE_DIR}commit.Jenkinsfile' )
-            lightweight( true )
-          }
-        }
-      }
-
