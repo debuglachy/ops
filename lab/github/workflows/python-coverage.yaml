@@ -1,0 +1,39 @@
+name: Reusable Python Coverage
+
+on:
+  workflow_call:
+    inputs:
+      src_folder:
+        required: true
+        type: string
+
+permissions:
+  pull-requests: write
+
+jobs:
+  python-coverage:
+      runs-on: ubuntu-latest
+      steps:
+            - name: Get code
+              uses: actions/checkout@v4
+            - name: Set up Py
+              uses: actions/setup-python@v4
+              with:
+                python-version: 3.13
+            - name: Get dependencies
+              run: |
+                pip install -r requirements.txt
+                pip install pytest==8.4.1
+                pip install coverage==7.9
+                pip install pytest-cov==6.2.1
+            - name: Check coverage
+              run: pytest -v --cov=${{ src_folder }}
+            - name: Comment coverage
+              uses: py-cov-action/python-coverage-comment-action@v3
+              with:
+                GITHUB_TOKEN: ${{ github.token }}
+                MINIMUM_GREEN: 90
+                MINIMUM_ORANGE: 70
+                VERBOSE: true
+            - name: Fail low coverage
+              run: coverage report --fail-under=90
