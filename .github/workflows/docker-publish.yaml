@@ -7,7 +7,9 @@ on:
         required: true
         type: string
     secrets:
-      run_token:
+      APP_ID:
+        required: true
+      APP_PRIVATE_KEY:
         required: true
 
 permissions:
@@ -15,20 +17,31 @@ permissions:
   packages: write
 
 jobs:
+  generate-app-token:
+    runs-on: ubuntu-latest
+    outputs:
+      token: ${{ steps.get-new-token.outputs.token }}
+    steps:
+      - id: get-new-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
   build:
+    needs: generate-app-token
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
       - name: debug-token
         run: echo "token is ${#CHECK_TOKEN} characters long"
         env:
-          CHECK_TOKEN: ${{ secrets.run_token }}
+          CHECK_TOKEN: ${{ needs.generate-app-token.outputs.token }}
       - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: x-access-token
-          password: ${{ secrets.run_token }}
+          password: ${{ needs.generate-app-token.outputs.token }}
       - name: Build and push Docker image
         run: |
           docker build . --tag ghcr.io/${{ github.actor }}/${{ inputs.image_name }}:main
