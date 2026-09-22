@@ -19,6 +19,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - name: debug-token
+        run: echo "token is ${#CHECK_TOKEN} characters long"
+        env:
+          CHECK_TOKEN: ${{ secrets.run_token }}
       - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
