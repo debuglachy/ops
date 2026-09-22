@@ -23,4 +23,4 @@ jobs:
     - name: Get dependencies
       run: python -m pip install pre-commit
     - name: run pre-commit
-      run: if [[ $(git rev-parse --verify -q HEAD^2) == 0]]; then git log -1 --pretty=%B HEAD^2 > /tmp/COMMIT_MSG; pre-commit run --hook-stage commit-msg --commit-msg-filename /tmp/COMMIT_MSG; fi
+      run: if [[ $(git rev-parse --verify -q HEAD^2{commit}) ]]; then git log -1 --pretty=%B HEAD^2 > /tmp/COMMIT_MSG; pre-commit run --hook-stage commit-msg --commit-msg-filename /tmp/COMMIT_MSG; fi
