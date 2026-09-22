@@ -27,7 +27,7 @@ jobs:
                 pip install coverage==7.9
                 pip install pytest-cov==6.2.1
             - name: Check coverage
-              run: pytest -v --cov=${{ src_folder }}
+              run: pytest -v --cov=${{ inputs.src_folder }}
             - name: Comment coverage
               uses: py-cov-action/python-coverage-comment-action@v3
               with:
