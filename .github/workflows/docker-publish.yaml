@@ -13,7 +13,6 @@ on:
 permissions:
   contents: write
   packages: write
-  attestations: write
 
 jobs:
   get-token-and-build-image:
