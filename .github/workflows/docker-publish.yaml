@@ -27,10 +27,6 @@ jobs:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
       - uses: actions/checkout@v6
-      - name: debug-token
-        run: echo "token is ${#CHECK_TOKEN} characters long"
-        env:
-          CHECK_TOKEN: ${{ steps.get-token.outputs.token }}
       - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
@@ -39,5 +35,5 @@ jobs:
           password: ${{ steps.get-token.outputs.token }}
       - name: Build and push Docker image
         run: |
-          docker build . --tag ghcr.io/${{ github.actor }}/${{ inputs.image_name }}:main
-          docker push ghcr.io/${{ github.actor }}/${{ inputs.image_name }}:main
+          docker build . --tag ghcr.io/${{ github.actor }}/${{ inputs.image_name }}/${{ inputs.image_name }}:main
+          docker push ghcr.io/${{ github.actor }}/${{ inputs.image_name }}/${{ inputs.image_name }}:main
