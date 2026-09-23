@@ -6,11 +6,9 @@ on:
       image_name:
         required: true
         type: string
-    secrets:
-      APP_ID:
+      image_registry:
         required: true
-      APP_PRIVATE_KEY:
-        required: true
+        type: string
 
 permissions:
   contents: write
@@ -21,20 +19,23 @@ jobs:
   get-token-and-build-image:
     runs-on: ubuntu-latest
     steps:
-      - id: get-token
-        name: get-token
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
       - uses: actions/checkout@v6
       - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
-          registry: ghcr.io
-          username: x-access-token
-          password: ${{ steps.get-token.outputs.token }}
+          registry: ${{ inputs.image_registry }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: extract tags and labels
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ inputs.image_registry }}/${{ inputs.image_name }}
       - name: Build and push Docker image
-        run: |
-          docker build . --tag ghcr.io/${{ github.actor }}/${{ inputs.image_name }}:main
-          docker push ghcr.io/${{ github.actor }}/${{ inputs.image_name }}:main
+        id: push
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
