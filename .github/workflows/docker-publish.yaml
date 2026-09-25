@@ -33,7 +33,7 @@ jobs:
         uses: docker/metadata-action@v6
         with:
           tags: |
-            type=ref,event=push
+            type=ref,event=branch
             ${{ inputs.app_version }}
             type=semver,pattern=v{{major}},value=${{ inputs.app_version }}
           images: ${{ inputs.image_registry }}/${{ github.actor }}/${{ inputs.image_name }}
