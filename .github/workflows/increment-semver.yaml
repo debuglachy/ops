@@ -12,8 +12,6 @@ permissions:
 jobs:
   analyse-version-change:
     runs-on: ubuntu-latest
-    outputs:
-      APP_VERSION: ${{ steps.analyse_push.outputs.APP_VERSION}}
     steps:
       - name: Get code
         uses: actions/checkout@v4
@@ -22,6 +20,7 @@ jobs:
       - name: Analyse push
         id: analyse_push
         if: ${{ github.event_name == 'push' }}
+        outputs: ${{ steps.analyse_push.outputs.GITHUB_OUTPUT }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
