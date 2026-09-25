@@ -1,0 +1,47 @@
+name: Reusable Semantic Version Incrementer
+
+on:
+  workflow_call:
+    outputs:
+      APP_VERSION: ${{ jobs.analyse-version-change.outputs.APP_VERSION }}
+
+permissions:
+  contents: write
+
+jobs:
+  analyse-version-change:
+    runs-on: ubuntu-latest
+    outputs:
+      APP_VERSION: ${{ steps.analyse_push.outputs.APP_VERSION }}
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Analyse push
+        id: analyse_push
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          COMMIT_VTAG=$(git describe --tags | awk -F- '{print $1}')
+          COMMIT_TAG=${COMMIT_VTAG#v}
+          ver_maj=$(echo $COMMIT_TAG | awk -F. '{print $1}')
+          ver_min=$(echo $COMMIT_TAG | awk -F. '{print $2}')
+          ver_patch=$(echo $COMMIT_TAG | awk -F. '{print $3}')
+          echo -e "$(git log -1 --pretty=%B)" | awk '/[!a-z]/ {print $1}' > /tmp/COMMIT_MSG
+          for i in $(cat /tmp/COMMIT_MSG) do
+            case i in
+              '!BREAKING CHANGE:')
+                ver_maj+=1
+                ver_min=0
+                ver_patch=0
+              'fix:')
+                ver_min+=1
+                ver_patch=0
+              *)
+                ver_patch+=1
+            esac
+          done
+          APP_VERSION="v$ver_maj.$ver_min.$ver_patch"
+          echo !! >> $GITHUB_OUTPUT
+          git tag -a  "$APP_VERSION" -m "Release $APP_VERSION"
+          git push origin "$APP_VERSION"

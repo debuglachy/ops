@@ -9,6 +9,9 @@ on:
       image_registry:
         required: true
         type: string
+      APP_VERSION:
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -30,6 +33,7 @@ jobs:
         uses: docker/metadata-action@v6
         with:
           images: ${{ inputs.image_registry }}/${{ github.actor }}/${{ inputs.image_name }}
+          tags: type=raw,value=${{ inputs.APP_VERSION }}
       - name: Build and push Docker image
         id: push
         uses: docker/build-push-action@v7
