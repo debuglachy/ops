@@ -9,7 +9,7 @@ on:
       image_registry:
         required: true
         type: string
-      APP_VERSION:
+      app_version:
         required: true
         type: string
 
@@ -33,7 +33,7 @@ jobs:
         uses: docker/metadata-action@v6
         with:
           tags: |
-            type=semver,pattern={{version}}
+            type=semver,pattern={{version}},value="${{ inputs.app_version }}"
           images: ${{ inputs.image_registry }}/${{ github.actor }}/${{ inputs.image_name }}
       - name: tag check
         run: echo "tag is ${{ steps.meta.outputs.tags}}"
