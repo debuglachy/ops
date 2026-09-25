@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       APP_VERSION:
-        value: ${{ steps.analyse_push.outputs }}
+        value: ${{ steps.analyse_push.outputs.APP_VERSION }}
     steps:
       - name: Get code
         uses: actions/checkout@v4
