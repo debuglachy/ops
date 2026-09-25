@@ -32,8 +32,12 @@ jobs:
         id: meta
         uses: docker/metadata-action@v6
         with:
-          images: ${{ inputs.image_registry }}/${{ github.actor }}/${{ inputs.image_name }}
-          tags: type=raw,value=${{ inputs.APP_VERSION }}
+          images: |
+            ${{ inputs.image_registry }}/${{ github.actor }}/${{ inputs.image_name }}
+          tags: |
+            type=raw,value=${{ inputs.APP_VERSION }}
+      - name: tag check
+        run: echo "tag is ${{ steps.meta.outputs.tags}}"
       - name: Build and push Docker image
         id: push
         uses: docker/build-push-action@v7
