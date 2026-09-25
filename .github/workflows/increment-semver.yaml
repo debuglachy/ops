@@ -4,7 +4,7 @@ on:
   workflow_call:
     outputs:
       APP_VERSION:
-        value: ${{ jobs.analyse_push.outputs.APP_VERSION }}
+        value: ${{ jobs.analyse_push.outputs.version }}
 
 permissions:
   contents: write
@@ -13,7 +13,7 @@ jobs:
   analyse-version-change:
     runs-on: ubuntu-latest
     outputs:
-      APP_VERSION: ${{ steps.analyse_push.outputs.APP_VERSION }}
+      version: ${{ steps.analyse_push.outputs.version }}
     steps:
       - name: Get code
         uses: actions/checkout@v4
@@ -48,6 +48,6 @@ jobs:
             esac
           done
           APP_VERSION="v$ver_maj.$ver_min.$ver_patch"
-          echo "APP_VERSION=$APP_VERSION" > $GITHUB_OUTPUT
+          echo "version="$APP_VERSION >> $GITHUB_OUTPUT
           git tag -a  "$APP_VERSION" -m "Release $APP_VERSION"
           git push origin "$APP_VERSION"
