@@ -12,7 +12,9 @@ permissions:
 jobs:
   analyse-version-change:
     runs-on: ubuntu-latest
-    outputs: ${{ steps.analyse_push.outputs.GITHUB_OUTPUT }}
+    outputs:
+      APP_VERSION:
+        value: ${{ steps.analyse_push.outputs }}
     steps:
       - name: Get code
         uses: actions/checkout@v4
