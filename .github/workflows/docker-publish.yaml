@@ -22,6 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        fetch-tags: true
       - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
@@ -31,6 +32,8 @@ jobs:
       - name: extract tags and labels
         id: meta
         uses: docker/metadata-action@v6
+        tags: |
+          type=semver,pattern={{version}}
         with:
           images: ${{ inputs.image_registry }}/${{ github.actor }}/${{ inputs.image_name }}
       - name: tag check
