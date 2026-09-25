@@ -32,9 +32,9 @@ jobs:
       - name: extract tags and labels
         id: meta
         uses: docker/metadata-action@v6
-        tags: |
-          type=semver,pattern={{version}}
         with:
+          tags: |
+            type=semver,pattern={{version}}
           images: ${{ inputs.image_registry }}/${{ github.actor }}/${{ inputs.image_name }}
       - name: tag check
         run: echo "tag is ${{ steps.meta.outputs.tags}}"
