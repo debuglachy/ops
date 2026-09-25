@@ -23,6 +23,8 @@ jobs:
         id: analyse_push
         if: ${{ github.event_name == 'push' }}
         run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           COMMIT_VTAG=$(git describe --tags | awk -F- '{print $1}')
           COMMIT_TAG=${COMMIT_VTAG#v}
           ver_maj=$(echo $COMMIT_TAG | awk -F. '{print $1}')
