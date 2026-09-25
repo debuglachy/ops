@@ -22,7 +22,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-        fetch-tags: true
       - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
