@@ -34,20 +34,20 @@ jobs:
           for i in $(cat /tmp/COMMIT_MSG); do
             case $i in
               '!BREAKING CHANGE:')
-                ver_maj+=1
+                ver_maj=$(($echo(ver_maj)+1))
                 ver_min=0
                 ver_patch=0
                 ;;
               'fix:')
-                ver_min+=1
+                ver_min+=$(($echo(ver_min)+1))
                 ver_patch=0
                 ;;
               *)
-                ver_patch+=1
+                ver_patch+=$(($echo(ver_patch)+1))
                 ;;
             esac
           done
           APP_VERSION="v$ver_maj.$ver_min.$ver_patch"
-          echo !! >> $GITHUB_OUTPUT
+          echo APP_VERSION="v$ver_maj.$ver_min.$ver_patch" >> $GITHUB_OUTPUT
           git tag -a  "$APP_VERSION" -m "Release $APP_VERSION"
           git push origin "$APP_VERSION"
