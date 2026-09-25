@@ -51,4 +51,3 @@ jobs:
           echo "version=${APP_VERSION}" >> $GITHUB_OUTPUT
           git tag -a  "$APP_VERSION" -m "Release $APP_VERSION"
           git push origin "$APP_VERSION"
-          cat $GITHUB_OUTPUT
