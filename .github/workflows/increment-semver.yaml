@@ -3,7 +3,8 @@ name: Reusable Semantic Version Incrementer
 on:
   workflow_call:
     outputs:
-      APP_VERSION: ${{ jobs.analyse-version-change.outputs.APP_VERSION }}
+      APP_VERSION:
+        value: ${{ jobs.analyse_push.outputs.APP_VERSION }}
 
 permissions:
   contents: write
