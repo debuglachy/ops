@@ -1,8 +1,8 @@
 # Incident Postmortem: Physical WAN Failure & Interface Transposition
 
-**Date:** 2026-10-05
-**Target Device:** Firewall Gateway (Network-001)
-**Impact:** Total loss of network ingress, local DHCP, and DNS resolution across all client LAN subnets
+**Date:** 2026-10-05  
+**Target Device:** Firewall Gateway (Network-001)  
+**Impact:** Total loss of network ingress, local DHCP, and DNS resolution across all client LAN subnets  
 **Recovery / resolution time:** ~2 hours
 
 ## Summary
