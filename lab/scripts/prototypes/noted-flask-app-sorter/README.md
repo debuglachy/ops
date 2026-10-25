@@ -8,7 +8,7 @@ Sorts notes from a single directory into multiple folders
 ## Description
 
 * Dynamically tags folders with keywords
-* Ingests files outputted from [noted-flask-app](../noted-flask-app/)
+* Ingests files outputted from [noted-flask-app](https://github.com/debuglachy/noted-flask-app)
 * Flexible execution including default options
 * Handles new and existing directories  
 
