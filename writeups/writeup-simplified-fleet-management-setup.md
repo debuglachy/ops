@@ -62,3 +62,8 @@ Connection was working to the static IP addresses but not to hostnames as the De
 Focusing on achieving the project aims, no additional packages were required on the Terminal app Debian VM.  
 
 Reset Terminal app and connected servers. No crashes occurred.  
+
+---
+
+Written by Lachlan Christie.
+
