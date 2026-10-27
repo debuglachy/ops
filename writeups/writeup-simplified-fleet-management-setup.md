@@ -1,6 +1,6 @@
 # Simple Lab Infrastructure Management Setup
 
-![Animation of the management being performed from a single mobile device.](writeup-simlified-fleet-management-setup.gif)
+![Animation of the management being performed from a single mobile device.](writeup-simplified-fleet-management-setup.gif)
 
 ## Problem Statement and Project Aim
 
@@ -18,7 +18,7 @@ Following the [Android 16 release](https://source.android.com/docs/whatsnew/andr
 
 ## Infrastructure Setup
 
-| Location | Connection to Lab's Infrastructure Network |
+| Mobile Phone Location | Connection to Lab's Infrastructure Network |
 | --- | --- |
 | Lab | LAN or WIFI |
 | Off-Site | VPN + mobile cellular data |
