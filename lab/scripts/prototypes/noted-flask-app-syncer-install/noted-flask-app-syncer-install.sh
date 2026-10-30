@@ -2,7 +2,7 @@
 
 # prepare system for user service
 loginctl enable-linger $USER
-mkdir -p /home/$USER/.config/systemd/user
+mkdir -p /home/$USER/.config/systemd/user /home/$USER/mount
 
 echo 'Available drives:'
 echo
