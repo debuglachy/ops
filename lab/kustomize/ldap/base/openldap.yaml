@@ -1,0 +1,23 @@
+tlsSecret:
+  existingSecret: ldap-tls
+
+openldap:
+  tlsReload:
+    enabled: true
+  bootstrap:
+    tls:
+      enabled: true
+      required: true
+    database:
+      # required for phpldapadmin
+      tree:
+        enabled: true
+      admin:
+        enabled: true
+      # hash generated with 'openldap-ctl password hash <password>'
+      # must match with given LDAP_PASSWORD in admin-credentials.env
+      #  passwordHashed: "{ARGON2}..."
+        passwordHashed: "$LDAP_ARGON"
+
+    organization: "My Example Org"
+    suffix: "dc=my,dc=example,dc=org"

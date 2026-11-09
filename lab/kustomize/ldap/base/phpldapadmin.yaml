@@ -1,0 +1,31 @@
+app:
+  ldap:
+    host: osixia-openldap.{{ .Release.Namespace }}.svc.cluster.local
+    port: 389
+    connection: starttls
+    tls: true
+
+extraEnv:
+  - name: LDAP_BASE_DN
+    value: $LDAP_BASE_DN
+  - name: LDAP_LOGIN_ATTR
+    value: dn
+  - name: LDAP_LOGIN_OBJECTCLASS
+    value: organizationalRole
+  - name: LDAPTLS_CACERT
+    value: /ldap-ca/ca.crt
+  - name: LDAPTLS_REQCERT
+    value: demand
+
+extraEnvFrom:
+  - secretRef:
+      name: ldap-admin-credentials
+
+extraVolumes:
+  - name: ldap-ca
+    secret:
+      secretName: ldap-tls
+extraVolumeMounts:
+  - name: ldap-ca
+    mountPath: /ldap-ca
+    readOnly: true

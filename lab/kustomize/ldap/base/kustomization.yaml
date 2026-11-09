@@ -1,0 +1,27 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+helmCharts:
+  - name: openldap
+    releaseName: osixia
+    # remote pull could be replaced
+    repo: https://charts.opensource.osixia.net
+    # target 2.6.15-rc
+    version: 0.3.0
+    valuesFile: openldap.yaml
+  - name: phpldapadmin
+    releaseName: phpldapadmin
+    # remote pull could be replaced
+    repo: https://charts.opensource.osixia.net
+    version: 0.2.1
+    valuesFile: phpldapadmin.yaml
+secretGenerator:
+- name: ldap-tls
+  files:
+  - tls.crt=server.crt
+  - tls.key=server.key
+  - ca.crt=ca.crt
+- name: ldap-admin-credentials
+  envs:
+  - admin-credentials.env
+generatorOptions:
+  disableNameSuffixHash: true
