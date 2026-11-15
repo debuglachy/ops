@@ -1,0 +1,21 @@
+dn: ou=users,dc=my,dc=example,dc=org
+objectClass: organizationalUnit
+ou: users
+
+dn: ou=groups,dc=my,dc=example,dc=org
+objectClass: organizationalUnit
+ou: groups
+
+dn: uid=svc-account,ou=users,dc=my,dc=example,dc=org
+cn: svc-account
+objectClass: inetOrgPerson
+sn: account
+uid: svc-account
+userPassword: password
+
+dn: uid=jdoe,ou=users,dc=my,dc=example,dc=org
+cn: Jac Doe
+objectClass: inetOrgPerson
+sn: Doe
+uid: jdoe
+userPassword: password

@@ -1,0 +1,69 @@
+# sections: git, local, env, test, terraform, certs, python+flask
+
+
+# git
+
+.git/
+.gitignore
+.gitattributes
+.github/
+README.md
+LICENSE
+
+.devcontainer/
+.vscode/
+.idea/
+
+
+# local
+
+*.log
+*.bak
+
+
+# env
+
+*.env
+*.env.local
+
+
+# test
+
+tests/
+test/
+
+
+# terraform
+
+.terraform/
+
+*.tfstate
+*.tfstate.*
+
+*.tfvars
+
+
+# certs
+
+*.crt
+*.p12
+
+
+# python+flask generated
+
+.venv/
+env/
+venv/
+
+*.pyc
+__pycache__/
+.pytest_cache/
+*.egg-info/
+*.py[cod]
+
+instance/
+dist/
+build/
+hmtlcov/
+
+.coverage

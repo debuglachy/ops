@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  ldap:
+    env_file: "bootstrap.env"
+    image: docker.io/osixia/openldap:2.6.15-rc
+    hostname: "my.example.org"
+    volumes:
+      - ./ldif-data:/container/services/openldap-bootstrap/assets/ldif/data/custom
+    ports:
+      - "390:3890"
+      - "686:6860"
+  web:
+    
+    env_file: "plugin.env"
+
+    build: .
+
+    ports:
+      - "8080:8080"
+    
+    # get default or user set port
+    #  - "${NOTED_APP_PORT}:${NOTED_APP_PORT}"
+    #
+
+    volumes:
+    #persist data between container restarts and crashes
+      - ./notes-data:/app/data
