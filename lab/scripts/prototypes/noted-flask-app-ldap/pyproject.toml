@@ -1,0 +1,13 @@
+[project]
+name = "app"
+description = "Noted-Flask-App is a simple web app for saving notes by LDAP-authenticated users to persistent storage."
+dependencies = [
+    "flask",
+    "flask_login",
+    "flask_ldap3_login",
+    "gunicorn[http2]",
+]
+
+[build-system]
+requires = ["flit_core<4"]
+build-backend = "flit_core.buildapi"

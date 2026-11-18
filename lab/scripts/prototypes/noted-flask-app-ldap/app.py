@@ -119,10 +119,8 @@ def login():
 #	login form load
 	return render_template_string(template, form=form)
 
-if __name__ == '__main__':
 
-#	check for custom port selection
-	port = int(os.environ.get('NOTED_APP_PORT', 8080))
-
-#	launch flask binded to all ifaces (planning to replace with gunicorn)
-	app.run(host='0.0.0.0', port=port)
+# below has been replaced with gunicorn
+# if __name__ == '__main__':
+#	port = int(os.environ.get('NOTED_APP_PORT', 8080))
+#	app.run(host='0.0.0.0', port=port)
