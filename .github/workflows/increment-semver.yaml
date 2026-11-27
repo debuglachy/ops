@@ -33,7 +33,7 @@ jobs:
           echo -e "$(git log -1 --pretty=%B)" | awk '/[!a-z]/ {print $1}' > /tmp/COMMIT_MSG
           for i in $(cat /tmp/COMMIT_MSG); do
             case $i in
-              '!BREAKING CHANGE:')
+              '!BREAKING')
                 ver_maj=$(($echo(ver_maj)+1))
                 ver_min=0
                 ver_patch=0
